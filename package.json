@@ -1,0 +1,88 @@
+{
+  "name": "fk-pqrsd",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emailjs/browser": "^3.4.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.11.3",
+    "@mui/icons-material": "^5.3.1",
+    "@mui/lab": "^5.0.0-alpha.68",
+    "@mui/material": "^5.3.1",
+    "@mui/x-data-grid": "^5.4.0",
+    "@mui/x-data-grid-generator": "^5.4.0",
+    "@mui/x-data-grid-pro": "^5.4.0",
+    "@syncfusion/ej2": "19.4.47",
+    "@syncfusion/ej2-react-barcode-generator": "19.4.38",
+    "@syncfusion/ej2-react-base": "19.4.47",
+    "@syncfusion/ej2-react-buttons": "19.4.42",
+    "@syncfusion/ej2-react-calendars": "19.4.42",
+    "@syncfusion/ej2-react-charts": "19.4.47",
+    "@syncfusion/ej2-react-circulargauge": "19.4.43",
+    "@syncfusion/ej2-react-diagrams": "19.4.43",
+    "@syncfusion/ej2-react-documenteditor": "19.4.47",
+    "@syncfusion/ej2-react-dropdowns": "19.4.47",
+    "@syncfusion/ej2-react-filemanager": "19.4.47",
+    "@syncfusion/ej2-react-gantt": "19.4.47",
+    "@syncfusion/ej2-react-grids": "19.4.47",
+    "@syncfusion/ej2-react-heatmap": "19.4.41",
+    "@syncfusion/ej2-react-inplace-editor": "19.4.38",
+    "@syncfusion/ej2-react-inputs": "19.4.47",
+    "@syncfusion/ej2-react-kanban": "19.4.47",
+    "@syncfusion/ej2-react-layouts": "19.4.47",
+    "@syncfusion/ej2-react-lineargauge": "19.4.38",
+    "@syncfusion/ej2-react-lists": "19.4.38",
+    "@syncfusion/ej2-react-maps": "19.4.47",
+    "@syncfusion/ej2-react-navigations": "19.4.47",
+    "@syncfusion/ej2-react-notifications": "19.4.38",
+    "@syncfusion/ej2-react-pdfviewer": "19.4.43",
+    "@syncfusion/ej2-react-pivotview": "19.4.47",
+    "@syncfusion/ej2-react-popups": "19.4.47",
+    "@syncfusion/ej2-react-progressbar": "19.4.38",
+    "@syncfusion/ej2-react-querybuilder": "19.4.47",
+    "@syncfusion/ej2-react-richtexteditor": "19.4.47",
+    "@syncfusion/ej2-react-schedule": "19.4.47",
+    "@syncfusion/ej2-react-splitbuttons": "19.4.47",
+    "@syncfusion/ej2-react-spreadsheet": "19.4.47",
+    "@syncfusion/ej2-react-treegrid": "19.4.47",
+    "@syncfusion/ej2-react-treemap": "19.4.38",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.21.4",
+    "bootstrap": "^5.1.3",
+    "notistack": "^2.0.3",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.1.2",
+    "react-dom": "^17.0.2",
+    "react-google-recaptcha": "^2.1.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

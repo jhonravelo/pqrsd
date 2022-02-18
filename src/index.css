@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background-color: #f6f8f9; */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+button:focus {
+  outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+#div-fixed {
+  height: 90px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  color: black;
+}
+
+.nav {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  left: 0;
+  /* box-shadow: 0 4px 4px rgba(75, 75, 75, 0.2) !important; */
+  flex-flow: row !important;
+  background-color: #fafbfb !important;
+  z-index: 99999;
+}
+
+.header-title h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.header-title h3 {
+  display: flex;
+  align-items: center;
+}
+
+.header-title h3 > span {
+  font-size: 1rem;
+  margin-left: 7px;
+}
+
+.segment {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  flex: 1;
+}
+
+.row-segment {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding-bottom: 5px;
+  padding-top: 10px;
+}
+
+.title-radio-buttons {
+  font-size: 1.2rem !important;
+  color: black !important;
+}
+
+.css-qfz70r-MuiFormGroup-root label:first-child {
+  margin-right: 125px;
+}
+
+.css-1nrlq1o-MuiFormControl-root {
+  flex: 1 !important;
+}
+
+.css-12mvehg-MuiPaper-root-MuiAlert-root {
+  flex: 1 !important;
+  font-size: 0.675rem !important;
+  background-color: #f5f5f5 !important;
+}
+.css-12mvehg-MuiPaper-root-MuiAlert-root .MuiAlert-icon {
+  color: #4b4b4b !important;
+}
+
+.css-yslrua-MuiTypography-root-MuiAlertTitle-root {
+  font-size: 0.8rem !important;
+}
+
+.css-ahj2mt-MuiTypography-root {
+  font-family: "Work Sans", sans-serif !important;
+  font-size: 0.675rem !important;
+  font-weight: 400 !important;
+  color: #4b4b4b !important;
+  display: flex !important;
+  flex: 1;
+}
+
+.info-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #626364;
+}
+
+.title-1 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+  /* margin-bottom: 10px; */
+}
+
+.title-2 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: black;
+}
+
+.info-small {
+  font-size: 10px;
+  color: #626364;
+  font-weight: 600;
+}
+
+.padding-3 {
+  padding: 3px;
+}
+
+.required {
+  color: red;
+}

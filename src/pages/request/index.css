@@ -1,0 +1,30 @@
+.box-types {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+
+.box-types:hover {
+  text-decoration: none;
+  background-color: rgba(25, 118, 210, 0.04);
+}
+
+.box-types:focus {
+  outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+.icon {
+  width: 15%;
+}
+
+.content {
+  width: 85%;
+}
+
+.content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
