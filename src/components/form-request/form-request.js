@@ -1,4 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useState,
+  Fragment,
+  useRef,
+} from "react";
+
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import useTheme from "@material-ui/core/styles/useTheme";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -26,18 +36,65 @@ import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { Grid, Typography } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import { useHistory } from "react-router";
 
+import { StepperDataContext } from "../../Contexts/StepperContext";
+
+import FileInput from "../Inputs/FileInput";
+import FileGridList from "../Inputs/File/FileGridList";
+import * as yup from "yup";
+import clsx from "clsx";
+import SweetAlert from "../Alerts/SweetAlert";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+
+const VALID_FILE_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx"];
+
+const fileSchema = yup.array().of(
+  yup.object({
+    size: yup
+      .number()
+      // eslint-disable-next-line no-template-curly-in-string
+      .test("fileSize", "${path}->Tamaño máximo: 5 MB", (value) => {
+        return value <= 5012000;
+      }),
+    name: yup.string(),
+    type: yup.string(),
+    extension: yup
+      .string()
+      // eslint-disable-next-line no-template-curly-in-string
+      .test("extension", "${path}->Archivo no permitido", (extension) =>
+        VALID_FILE_EXTENSIONS.includes(extension)
+      ),
+    file: yup.mixed(),
+  })
+);
+
+const convertBytesToMegaBytes = (bytes) =>
+  Math.round((bytes / 1000000) * 100) / 100;
+const MAX_TOTAL_FILE_SIZE = 50;
+
 const FormRequest = () => {
-  const [anonymousValue, anonymousInputProps] = useRadioAnonymous("Anonymous");
-  const [responseTypeValue, responseTypeInputProps] =
-    useRadioResponseType("ResponseType");
+  const [anonymousInputProps] = useRadioAnonymous("Anonymous");
+  const [responseTypeInputProps] = useRadioResponseType("ResponseType");
   const { push } = useHistory();
+  const classes = useStyles();
+  const stepperData = useContext(StepperDataContext);
+  const theme = useTheme();
+  const isMobileSize = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const initialFiles = stepperData.attachments || [];
+  const [files, setFiles] = useState(initialFiles);
+  const [totalSize, setTotalSize] = useState(
+    initialFiles.reduce((total, file) => total + file.size, 0)
+  );
 
   const [Captcha, setCaptcha] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+
+  const fileInputRef = useRef(null);
 
   let [FormDataa, setFormData] = useState({
     Anonymous: "ID",
@@ -125,6 +182,88 @@ const FormRequest = () => {
       RequestType: type,
     });
   };
+
+  const handleDeleteFile = useCallback(
+    (fileIndex) => {
+      const filteredFiles = files.filter((_file, index) => index !== fileIndex);
+
+      const totalFilesSize = filteredFiles.reduce(
+        (total, file) => total + file.size,
+        0
+      );
+
+      setFiles(filteredFiles);
+      setTotalSize(convertBytesToMegaBytes(totalFilesSize));
+      fileInputRef.current.value = "";
+    },
+    [files, fileInputRef]
+  );
+
+  const parseFiles = (currentFiles, incomingFiles) => {
+    const preparedFiles = incomingFiles.map((file) => {
+      const { name, size, type } = file;
+
+      const extension = name.split(".").pop().toLowerCase();
+
+      return { name, size, type, extension, file, error: false };
+    });
+
+    const parsedFiles = currentFiles.slice();
+
+    for (let i = 0; i < preparedFiles.length; ++i) {
+      let found = false;
+      for (let j = 0; j < currentFiles.length; ++j) {
+        if (currentFiles[j].name === preparedFiles[i].name) {
+          parsedFiles[i] = currentFiles[j];
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        parsedFiles.push(preparedFiles[i]);
+      }
+    }
+
+    try {
+      fileSchema.validateSync(parsedFiles, {
+        abortEarly: false,
+      });
+    } catch (err) {
+      for (const errorMessage of err.errors) {
+        const [identifier, message] = errorMessage.split("->");
+        const index = identifier.split(".")[0];
+
+        const idx = parseInt(index.substr(1, index.length - 1), 10);
+
+        parsedFiles[idx].error = true;
+        parsedFiles[idx].errorMessage = message;
+      }
+    }
+
+    const sortedParsedFiles = parsedFiles.slice();
+
+    sortedParsedFiles.sort((a, b) => b.error - a.error);
+
+    return sortedParsedFiles;
+  };
+
+  const handleChangeFile = useCallback(
+    (e) => {
+      const inputFiles = Array.from(e.target.files);
+
+      const parsedFiles = parseFiles(files, inputFiles);
+
+      const totalFilesSize = parsedFiles.reduce(
+        (total, file) => total + file.size,
+        0
+      );
+
+      setFiles(parsedFiles);
+      setTotalSize(convertBytesToMegaBytes(totalFilesSize));
+    },
+    [files]
+  );
 
   useEffect(() => {
     loadDataOnlyOnce();
@@ -314,7 +453,9 @@ const FormRequest = () => {
                             <MenuItem value={"CC"}>Cedula ciudadania</MenuItem>
                             <MenuItem value={"TI"}>Tarjeta identidad</MenuItem>
                             <MenuItem value={"CE"}>Cedula extranjera</MenuItem>
-                            <MenuItem value={"PP"}>Permiso Permanencia</MenuItem>
+                            <MenuItem value={"PP"}>
+                              Permiso Permanencia
+                            </MenuItem>
                             <MenuItem value={"OT"}>Otro</MenuItem>
                           </Select>
                         </FormControl>
@@ -739,11 +880,76 @@ const FormRequest = () => {
                   Adjunte los documentos que considere necesarios para realizar
                   su Petición
                 </span>
+                <br />
+                <br />
               </span>
               {""}
-              <Customdroparea />
-            </div>
 
+              <Grid
+                item
+                sm="auto"
+                xs={12}
+                className={classes.inputContainerItem}
+              >
+                <FileInput
+                  id="Pqr_detail_fileinput"
+                  ref={fileInputRef}
+                  name="attachments"
+                  accept={VALID_FILE_EXTENSIONS.map((ext) => `.${ext}`).join(
+                    ","
+                  )}
+                  text="Adjuntar archivos"
+                  inputProps={{
+                    onChange: handleChangeFile,
+                  }}
+                  helperText={
+                    <span className={classes.noWrap}>{totalSize} MB/50 MB</span>
+                  }
+                  error={totalSize > MAX_TOTAL_FILE_SIZE}
+                  buttonProps={{
+                    color: "default",
+                  }}
+                  multiple
+                  iconVisible
+                />
+              </Grid>
+              <Grid
+                item
+                sm="auto"
+                xs={12}
+                className={clsx(
+                  classes.inputContainerItem,
+                  classes.sweetAlertContainer
+                )}
+              >
+                <SweetAlert
+                  id="Pqr_Contact_alert"
+                  type="info"
+                  noIcon={isMobileSize}
+                  message={
+                    <Fragment>
+                      Permitidos:{" "}
+                      {VALID_FILE_EXTENSIONS.map((ext) => ` .${ext}`)}
+                    </Fragment>
+                  }
+                  classes={{
+                    root: classes.sweetAlert,
+                    message: classes.sweetAlertText,
+                  }}
+                />
+              </Grid>
+              {files && files.length > 0 && (
+                <FileGridList
+                  id="Pqr_detail_filelist"
+                  files={files}
+                  onDeleteFile={handleDeleteFile}
+                  className={clsx(
+                    classes.inputContainerItem,
+                    classes.filelistItem
+                  )}
+                />
+              )}
+            </div>
             <div className="segment"></div>
           </div>
           <div className="row-segment">
@@ -865,6 +1071,54 @@ function useRadioResponseType(name) {
 
   return [value, inputProps];
 }
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(4),
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 700,
+  },
+  inputContainer: {
+    marginTop: theme.spacing(),
+  },
+  inputContainerItem: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(),
+  },
+  filelistItem: {
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(),
+    },
+  },
+  filelistActive: {
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 58,
+    },
+  },
+  fileButtonText: {
+    color: "#626262",
+  },
+  sweetAlertContainer: {
+    flexGrow: 1,
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: theme.spacing(2),
+    },
+  },
+  sweetAlert: {
+    [theme.breakpoints.up("sm")]: {
+      height: 58,
+    },
+  },
+  sweetAlertText: {
+    fontSize: 14,
+  },
+  noWrap: {
+    whiteSpace: "nowrap",
+  },
+}));
 
 export default function IntegrationNotistack() {
   return (
