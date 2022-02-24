@@ -234,7 +234,7 @@ const RequestsAdmin = () => {
       const dependencie = dependenciesSelected[key];
 
       fetchData(
-        "http://localhost:3001/request/dependencies",
+        "http://localhost:3001/request/dependencies/update",
         {
           id: request?.id,
           dependencie: dependencie,
@@ -242,32 +242,11 @@ const RequestsAdmin = () => {
         "POST"
       ).then((data) => {
         console.log(data);
-        sendEmail();
       });
     }
     setLoading(true ? true : false);
     handleCloseModalAssignment();
   };
-
-  const sendEmail = (e) => {
-    emailjs
-      .sendForm(
-        "service_klct4ts",
-        "template_07rbiqp",
-        form.current,
-        "user_IiqHTgmiu5DmYOdMrGsHe"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-    alert("Mensaje enviado");
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("http://localhost:3001/request/all");

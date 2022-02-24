@@ -122,6 +122,7 @@ const FormRequest = () => {
     Description: "",
     AcceptPolicy: "",
     Neighborhood: "",
+    allAttachments: []
   });
 
   let {
@@ -147,6 +148,7 @@ const FormRequest = () => {
     Description,
     AcceptPolicy,
     Neighborhood,
+    allAttachments
   } = FormDataa;
 
   const handleSend = () => {
@@ -159,9 +161,22 @@ const FormRequest = () => {
       .then((res) => {
         let variant = "success";
         enqueueSnackbar("Solicitud Enviada Correctamente!", { variant });
-        push("/");
-        // window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => {
+          push("/");
+        }, 1500);
       });
+
+    // console.log(files);
+  };
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
   const handleChange = (e) => {
@@ -253,6 +268,15 @@ const FormRequest = () => {
       const inputFiles = Array.from(e.target.files);
 
       const parsedFiles = parseFiles(files, inputFiles);
+      
+      var arrayFiles = FormDataa.allAttachments;
+      getBase64(inputFiles[0]).then((data) => {
+        arrayFiles.push(data);
+        setFormData({
+          ...FormDataa,
+          allAttachments: arrayFiles,
+        });
+      });
 
       const totalFilesSize = parsedFiles.reduce(
         (total, file) => total + file.size,
