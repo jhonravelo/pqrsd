@@ -125,7 +125,7 @@ const RequestsAdmin = () => {
 
   const handleStatus = () => {
     fetchData(
-      "http://localhost:3001/request/status",
+      "http://fk-pqrsd.siipc.co/request/status",
       {
         id: request?.id,
         statu: "FN",
@@ -234,7 +234,7 @@ const RequestsAdmin = () => {
       const dependencie = dependenciesSelected[key];
 
       fetchData(
-        "http://localhost:3001/request/dependencies/update",
+        "http://fk-pqrsd.siipc.co/request/dependencies/update",
         {
           id: request?.id,
           dependencie: dependencie,
@@ -249,19 +249,19 @@ const RequestsAdmin = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:3001/request/all");
+      const response = await fetch("http://fk-pqrsd.siipc.co/request/all");
       const data = await response.json();
       setRequests(data.data.requests);
     };
 
     const fetchDependencies = async () => {
-      const response = await fetch("http://localhost:3001/dependencies/all");
+      const response = await fetch("http://fk-pqrsd.siipc.co/dependencies/all");
       const data = await response.json();
       setDependencies(data.data.dependencies);
     };
 
     const fetchLogs = async () => {
-      const response = await fetch("http://localhost:3001/request/logs");
+      const response = await fetch("http://fk-pqrsd.siipc.co/request/logs");
       const data = await response.json();
       setLogs(data.logs);
     };

@@ -32,7 +32,7 @@ const SearchRequest = () => {
 
   const handleSearch = () => {
     axios
-      .post("http://localhost:3001/request/search", {
+      .post("http://fk-pqrsd.siipc.co/request/search", {
         InputSearch: InputSearch,
       })
       .then(({ data }) => {

@@ -56,7 +56,7 @@ const UsersAdmin = () => {
 
   const saveUser = () => {
     axios
-      .post("http://localhost:3001/user", FormData)
+      .post("http://fk-pqrsd.siipc.co/user", FormData)
       .then(({ data }) => {
         handleClose();
         setLoading(true ? true : false);
@@ -68,7 +68,7 @@ const UsersAdmin = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:3001/user/all");
+      const response = await fetch("http://fk-pqrsd.siipc.co/user/all");
       const data = await response.json();
       setUsers(data.data.users);
     };

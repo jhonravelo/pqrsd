@@ -17,7 +17,7 @@ const Login = () => {
 
   const submitLogin = () => {
     axios
-      .post("http://localhost:3001/login", body)
+      .post("http://fk-pqrsd.siipc.co/login", body)
       .then(({ data }) => {
         localStorage.setItem("auth", '"yes"');
         push("/admin");

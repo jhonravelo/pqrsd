@@ -58,7 +58,7 @@ const DependenciesAdmin = () => {
 
   const save = () => {
     axios
-      .post("http://localhost:3001/dependencies", FormData)
+      .post("http://fk-pqrsd.siipc.co/dependencies", FormData)
       .then(({ data }) => {
         handleClose();
         setLoading(true ? true : false);
@@ -69,7 +69,7 @@ const DependenciesAdmin = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/dependencies/all")
+    fetch("http://fk-pqrsd.siipc.co/dependencies/all")
       .then((res) => res.json())
       .then((res) => setDependencies(res.data.dependencies));
   }, [loading]);

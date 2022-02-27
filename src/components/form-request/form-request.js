@@ -152,7 +152,7 @@ const FormRequest = () => {
   } = FormDataa;
 
   const handleSend = () => {
-    fetch("http://localhost:3001/request/post", {
+    fetch("http://fk-pqrsd.siipc.co/request/post", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(FormDataa),
