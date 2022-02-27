@@ -92,6 +92,7 @@ const FormRequest = () => {
   );
 
   const [Captcha, setCaptcha] = useState(false);
+  const [typePersonValid, setTypePersonValid] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
   const fileInputRef = useRef(null);
@@ -122,7 +123,7 @@ const FormRequest = () => {
     Description: "",
     AcceptPolicy: "",
     Neighborhood: "",
-    allAttachments: []
+    allAttachments: [],
   });
 
   let {
@@ -148,7 +149,7 @@ const FormRequest = () => {
     Description,
     AcceptPolicy,
     Neighborhood,
-    allAttachments
+    allAttachments,
   } = FormDataa;
 
   const handleSend = () => {
@@ -180,6 +181,9 @@ const FormRequest = () => {
   };
 
   const handleChange = (e) => {
+    if (e.target.value === "PJ" && e.target.name === "PersonType")
+      setTypePersonValid(true);
+    else if (e.target.name === "PersonType") setTypePersonValid(false);
     setFormData({
       ...FormDataa,
       [e.target.name]: e.target.value,
@@ -268,7 +272,7 @@ const FormRequest = () => {
       const inputFiles = Array.from(e.target.files);
 
       const parsedFiles = parseFiles(files, inputFiles);
-      
+
       var arrayFiles = FormDataa.allAttachments;
       getBase64(inputFiles[0]).then((data) => {
         arrayFiles.push(data);
@@ -473,13 +477,39 @@ const FormRequest = () => {
                             <MenuItem value="SE">
                               <em>Seleccionar</em>
                             </MenuItem>
-                            <MenuItem value={"NT"}>NIT</MenuItem>
-                            <MenuItem value={"CC"}>Cedula ciudadania</MenuItem>
-                            <MenuItem value={"TI"}>Tarjeta identidad</MenuItem>
-                            <MenuItem value={"CE"}>Cedula extranjera</MenuItem>
-                            <MenuItem value={"PP"}>
-                              Permiso Permanencia
-                            </MenuItem>
+                            {typePersonValid ? (
+                              <MenuItem value={"NT"}>NIT</MenuItem>
+                            ) : (
+                              false
+                            )}
+                            {typePersonValid ? (
+                              false
+                            ) : (
+                              <MenuItem value={"CC"}>
+                                Cedula ciudadania
+                              </MenuItem>
+                            )}
+                            {typePersonValid ? (
+                              false
+                            ) : (
+                              <MenuItem value={"TI"}>
+                                Tarjeta identidad
+                              </MenuItem>
+                            )}
+                            {typePersonValid ? (
+                              false
+                            ) : (
+                              <MenuItem value={"CE"}>
+                                Cedula extranjera
+                              </MenuItem>
+                            )}
+                            {typePersonValid ? (
+                              false
+                            ) : (
+                              <MenuItem value={"PP"}>
+                                Permiso Permanencia
+                              </MenuItem>
+                            )}
                             <MenuItem value={"OT"}>Otro</MenuItem>
                           </Select>
                         </FormControl>
