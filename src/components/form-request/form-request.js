@@ -1039,7 +1039,7 @@ const FormRequest = () => {
           <div className="row-segment">
             <div className="segment">
               <ReCAPTCHA
-                sitekey="6Lf8eqIeAAAAAOxzamCiIiX49vZckbIRrMLKRXHe"
+                sitekey="6LemLKQeAAAAACazNb7VgPDrm5NbrfnspV9Cfo2q"
                 onChange={onChange}
               />
             </div>
