@@ -35,7 +35,7 @@ import { useHistory } from "react-router";
 
 const data = [
   { icon: <CoPresentIcon />, label: "Solicitudes", href: `requests` },
-  { icon: <FilePresentIcon />, label: "Reportes", href: `reports` },
+  // { icon: <FilePresentIcon />, label: "Reportes", href: `reports` },
   { icon: <Dns />, label: "Dependencias", href: `dependencies` },
   { icon: <People />, label: "Usuarios", href: `users` },
 ];
@@ -53,7 +53,7 @@ const FireNav = styled(List)({
     fontSize: 20,
   },
 });
-const settings = ["Logout"];
+const settings = ["Cerrar sesión"];
 
 const Admin = ({ match }) => {
   const [open, setOpen] = React.useState(true);
@@ -116,7 +116,7 @@ const Admin = ({ match }) => {
                           <AccountCircleIcon color="primary" />
                         </ListItemIcon>
                         <ListItemText
-                          primary="Jhon Ravelo"
+                          primary="Bienvenido"
                           primaryTypographyProps={{
                             color: "primary",
                             fontWeight: "medium",

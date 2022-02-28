@@ -28,8 +28,8 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import InfoIcon from "@mui/icons-material/Info";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import InfoRequest from "../../../components/info-request/info-request";
-import emailjs from "@emailjs/browser";
-import axios from "axios";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -284,7 +284,23 @@ const RequestsAdmin = () => {
 
   return (
     <>
-      <div style={{ height: 400, width: "100%" }}>
+      <div role="presentation">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" color="inherit" disabled>
+            Admin
+          </Link>
+          <Link underline="hover" color="inherit" disabled>
+            Home
+          </Link>
+          <Typography color="text.primary">Listado</Typography>
+        </Breadcrumbs>
+      </div>
+      <div style={{ textAlign:"center", paddingTop: "20px" }}>
+        <Typography variant="h6" gutterBottom component="div">
+          Listado Solicitudes
+        </Typography>
+      </div>
+      <div style={{ height: 400, width: "100%", paddingTop: "20px" }}>
         {/* Table List Request */}
         <ThemeProvider theme={location}>
           <DataGrid
