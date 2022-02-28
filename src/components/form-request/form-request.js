@@ -40,7 +40,6 @@ import { Grid, Typography } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import { useHistory } from "react-router";
-
 import { StepperDataContext } from "../../Contexts/StepperContext";
 
 import FileInput from "../Inputs/FileInput";
@@ -49,6 +48,7 @@ import * as yup from "yup";
 import clsx from "clsx";
 import SweetAlert from "../Alerts/SweetAlert";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import axios from "axios";
 
 const VALID_FILE_EXTENSIONS = ["pdf", "doc", "docx", "xls", "xlsx"];
 
@@ -149,7 +149,6 @@ const FormRequest = () => {
     Description,
     AcceptPolicy,
     Neighborhood,
-    allAttachments,
   } = FormDataa;
 
   const handleSend = () => {
@@ -160,15 +159,33 @@ const FormRequest = () => {
     })
       .then((res) => res.text())
       .then((res) => {
+        const result = JSON.parse(res);
+        for (let e = 0; e < files.length; e++) {
+          const element = files[e];
+          fileSave(element.file, e, result.data.request_id.id);
+        }
+
         let variant = "success";
         enqueueSnackbar("Solicitud Enviada Correctamente!", { variant });
         window.scrollTo({ top: 0, behavior: "smooth" });
-        setTimeout(() => {
-          push("/");
-        }, 1500);
       });
+  };
 
-    // console.log(files);
+  const fileSave = async (file, e, id) => {
+    const data = new FormData();
+    data.append("name", Identification);
+    data.append("request_id", id);
+    data.append("file", file);
+    axios
+      .post("http://fk-pqrsd.siipc.co/request/uploads", data)
+      .then((res) => {
+        if (e + 1 === files.length) {
+          setTimeout(() => {
+            push("/");
+          }, 1500);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const getBase64 = (file) => {
@@ -270,23 +287,11 @@ const FormRequest = () => {
   const handleChangeFile = useCallback(
     (e) => {
       const inputFiles = Array.from(e.target.files);
-
       const parsedFiles = parseFiles(files, inputFiles);
-
-      var arrayFiles = FormDataa.allAttachments;
-      getBase64(inputFiles[0]).then((data) => {
-        arrayFiles.push(data);
-        setFormData({
-          ...FormDataa,
-          allAttachments: arrayFiles,
-        });
-      });
-
       const totalFilesSize = parsedFiles.reduce(
         (total, file) => total + file.size,
         0
       );
-
       setFiles(parsedFiles);
       setTotalSize(convertBytesToMegaBytes(totalFilesSize));
     },
@@ -296,6 +301,17 @@ const FormRequest = () => {
   useEffect(() => {
     loadDataOnlyOnce();
   }, []);
+
+  async function fetchData(url = "", data = {}, method) {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
 
   return (
     <>
@@ -1077,14 +1093,12 @@ const FormRequest = () => {
           </div>
           <div className="row-segment">
             <div className="segment">
-              {Captcha ? (
-                <Stack direction="row" spacing={2}>
-                  <Button variant="outlined">Cancelar</Button>
-                  <Button variant="contained" onClick={handleSend}>
-                    Enviar
-                  </Button>
-                </Stack>
-              ) : null}
+              <Stack direction="row" spacing={2}>
+                <Button variant="outlined">Cancelar</Button>
+                <Button variant="contained" onClick={handleSend}>
+                  Enviar
+                </Button>
+              </Stack>
             </div>
             <div className="segment"></div>
           </div>
