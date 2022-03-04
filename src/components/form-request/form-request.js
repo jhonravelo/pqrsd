@@ -97,6 +97,10 @@ const FormRequest = () => {
 
   const fileInputRef = useRef(null);
 
+  const [departments, setDepartaments] = useState([]);
+
+  const [cities, setCities] = useState([]);
+
   let [FormDataa, setFormData] = useState({
     Anonymous: "ID",
     Department: "",
@@ -118,7 +122,7 @@ const FormRequest = () => {
     Phone: null,
     Cell: null,
     Address: "",
-    Country: "",
+    Country: "COL",
     ResponseType: "",
     Description: "",
     AcceptPolicy: "",
@@ -141,7 +145,7 @@ const FormRequest = () => {
     Cell,
     Address,
     Country,
-    Department,
+    Departament,
     City,
     ResponseType,
     Inability,
@@ -298,19 +302,36 @@ const FormRequest = () => {
     [files]
   );
 
+  const loadDepartaments = async () => {
+    let url = `${process.env.REACT_APP_URL}/utils/colombia.json`;
+    let data = await fetchData(url, null, "GET").then(response => response);
+    setDepartaments(data)
+  }
+
   useEffect(() => {
     loadDataOnlyOnce();
+    loadDepartaments();
   }, []);
 
-  async function fetchData(url = "", data = {}, method) {
-    const response = await fetch(url, {
+  const fetchData = (url = "", data, method) => {
+    return fetch(url, {
       method: method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: JSON.stringify(data),
-    });
-    return response.json();
+      body: data ? JSON.stringify(data): data,
+    }).then(response => response.json());
+  }
+
+  const handleChangeDepartament = (e) => {
+    setFormData({
+      ...FormDataa,
+      Department: e.target.value,
+    })
+    let departamentFilter = departments.find(item => item.id == e.target.value);
+    console.log("ciudades", departamentFilter);
+    setCities(departamentFilter.ciudades);
   }
 
   return (
@@ -675,40 +696,54 @@ const FormRequest = () => {
                     </FormControl>
                   </div>
                   <div className="col-6">
-                    <TextField
-                      id="department"
-                      name="Department"
-                      value={Department}
-                      onChange={handleChange}
-                      label="Departamento"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <AddLocationIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      variant="filled"
-                    />
+                    <FormControl variant="filled" sx={{ m: 1, minWidth: 240 }}>
+                      <InputLabel id="departament-label">Departamentos</InputLabel>
+                      <Select
+                        labelId="departament-label"
+                        id="departament"
+                        name="departament"
+                        value={Departament}
+                        onChange={handleChangeDepartament}
+                        label="Departamentos"
+                      >
+                        <MenuItem value="SE">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        {
+                          departments.map(item => {
+                            return (<MenuItem key={item.id} value={item.id}>
+                              <em>{item.departamento}</em>
+                            </MenuItem>)
+                          })
+                        }
+                      </Select>
+                    </FormControl>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-6">
-                    <TextField
-                      id="city"
-                      name="City"
-                      value={City}
-                      onChange={handleChange}
-                      label="Municipio"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <LocationCityIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      variant="filled"
-                    />
+                    <FormControl variant="filled" sx={{ m: 1, minWidth: 240 }}>
+                      <InputLabel id="municipio-label">Municipios</InputLabel>
+                      <Select
+                        labelId="municipio-label"
+                        id="municipio"
+                        name="municipio"
+                        value={City}
+                        onChange={handleChange}
+                        label="Municipios"
+                      >
+                        <MenuItem value="SE">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        {
+                          cities.map((v, i) => {
+                            return (<MenuItem key={i} value={v}>
+                              <em>{v}</em>
+                            </MenuItem>)
+                          })
+                        }
+                      </Select>
+                    </FormControl>
                   </div>
                   <div className="col-6">
                     <TextField
