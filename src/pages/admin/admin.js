@@ -29,7 +29,7 @@ import "./admin.css";
 
 import RequestsAdmin from "./requests/requests-admin";
 import ReportsAdmin from "./reports/reports.admin";
-import UsersAdmin from "./users/users.admin.js";
+import UsersAdmin from "./users/users.admin";
 import DependenciesAdmin from "./dependencies/dependencies.admin";
 import { useHistory } from "react-router";
 

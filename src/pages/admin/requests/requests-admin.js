@@ -98,7 +98,7 @@ const RequestsAdmin = () => {
   const handleOpenModalAssignment = (info) => {
     let thisdata = [];
     logs.map((e) =>
-      e.idSolicitud === info?.id ? thisdata.push(Number(e.dependencia)) : false
+    e.idSolicitud === info?.id ? thisdata.push(Number(e.dependencia)) : false
     );
 
     console.log(thisdata);
