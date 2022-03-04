@@ -65,6 +65,8 @@
     "react-scripts": "^3.0.1",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
+    "clsx": "1.0.4",
+    "typescript": "3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

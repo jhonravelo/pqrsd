@@ -30,6 +30,7 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import InfoRequest from "../../../components/info-request/info-request";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -295,31 +296,36 @@ const RequestsAdmin = () => {
           <Typography color="text.primary">Listado</Typography>
         </Breadcrumbs>
       </div>
-      <div style={{ textAlign:"center", paddingTop: "20px" }}>
-        <Typography variant="h6" gutterBottom component="div">
-          Listado Solicitudes
-        </Typography>
-      </div>
-      <div style={{ height: 400, width: "100%", paddingTop: "20px" }}>
-        {/* Table List Request */}
-        <ThemeProvider theme={location}>
-          <DataGrid
-            rows={requests}
-            columns={columns}
-            pageSize={5}
-            initialState={{
-              sorting: {
-                sortModel: [
-                  {
-                    field: "id",
-                    sort: "desc",
+      <Box sx={{ minWidth: 275, width: "100%" }}>
+        <Card variant="outlined" sx={{ padding: "10px", width: "100%" }}>
+          <div style={{ textAlign: "center", }}>
+            <Typography variant="h6" gutterBottom component="div">
+              Listado Solicitudes
+            </Typography>
+          </div>
+          <div style={{ height: 400, width: "100%", paddingTop: "20px" }}>
+            {/* Table List Request */}
+            <ThemeProvider theme={location}>
+              <DataGrid
+                rows={requests}
+                columns={columns}
+                pageSize={5}
+                initialState={{
+                  sorting: {
+                    sortModel: [
+                      {
+                        field: "id",
+                        sort: "desc",
+                      },
+                    ],
                   },
-                ],
-              },
-            }}
-          />
-        </ThemeProvider>
-      </div>
+                }}
+              />
+            </ThemeProvider>
+          </div>
+        </Card>
+      </Box>
+
       <div>
         {/* Modal Information */}
         <Modal

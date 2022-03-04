@@ -29,7 +29,7 @@ import "./admin.css";
 
 import RequestsAdmin from "./requests/requests-admin";
 import ReportsAdmin from "./reports/reports.admin";
-import UsersAdmin from "./users/users.admin";
+import UsersAdmin from "./users/users.admin.js";
 import DependenciesAdmin from "./dependencies/dependencies.admin";
 import { useHistory } from "react-router";
 
@@ -56,6 +56,7 @@ const FireNav = styled(List)({
 const settings = ["Cerrar sesión"];
 
 const Admin = ({ match }) => {
+  const ulStyle = {};
   const [open, setOpen] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { push } = useHistory();
@@ -207,7 +208,7 @@ const Admin = ({ match }) => {
                         }}
                       >
                         <ListItemText
-                          primary="Admin dashboard"
+                          primary="Panel administrativo"
                           primaryTypographyProps={{
                             fontSize: 15,
                             fontWeight: "medium",
@@ -270,7 +271,7 @@ const Admin = ({ match }) => {
               <Container maxWidth="sm">
                 <Switch>
                   <Route exact path={path}>
-                  <RequestsAdmin />
+                    <RequestsAdmin />
                   </Route>
                   <Route path={`${path}/requests`}>
                     <RequestsAdmin />

@@ -11,7 +11,7 @@ const InfoRequest = ({ dataInfo }) => {
             Nombre Completo{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Nombre Completo"
               id="filled-hidden-label-small"
               value={dataInfo?.nombre ? dataInfo?.nombre : ""}
@@ -25,7 +25,7 @@ const InfoRequest = ({ dataInfo }) => {
             Identificacion{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Identificacion"
               id="filled-hidden-label-small"
               value={dataInfo?.identificacion ? dataInfo?.identificacion : ""}
@@ -39,10 +39,10 @@ const InfoRequest = ({ dataInfo }) => {
             Tipo Persona{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Tipo Persona"
               id="filled-hidden-label-small"
-              value={dataInfo?.tipoPersona ? dataInfo?.tipoPersona : ""}
+              value={dataInfo?.typePerson_name ? dataInfo?.typePerson_name : ""}
               size="small"
               sx={{ width: "100%" }}
             />
@@ -54,7 +54,7 @@ const InfoRequest = ({ dataInfo }) => {
           <Typography variant="subtitle2">Pais </Typography>
           <TextField
             hiddenLabel
-            disabled
+            readonly
             placeholder="Pais"
             id="filled-hidden-label-small"
             value={dataInfo?.paisDireccion ? dataInfo?.paisDireccion : ""}
@@ -67,7 +67,7 @@ const InfoRequest = ({ dataInfo }) => {
             Departamento{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Departamento"
               id="filled-hidden-label-small"
               value={dataInfo?.estadoDireccion ? dataInfo?.estadoDireccion : ""}
@@ -81,7 +81,7 @@ const InfoRequest = ({ dataInfo }) => {
             Ciudad{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Ciudad"
               id="filled-hidden-label-small"
               value={
@@ -98,7 +98,7 @@ const InfoRequest = ({ dataInfo }) => {
           <Typography variant="subtitle2">Direccion </Typography>
           <TextField
             hiddenLabel
-            disabled
+            readonly
             placeholder="Direccion"
             id="filled-hidden-label-small"
             value={dataInfo?.direccion ? dataInfo?.direccion : ""}
@@ -111,7 +111,7 @@ const InfoRequest = ({ dataInfo }) => {
             Correo Electronico{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Correo Electronico"
               id="filled-hidden-label-small"
               value={dataInfo?.email ? dataInfo?.email : ""}
@@ -127,7 +127,7 @@ const InfoRequest = ({ dataInfo }) => {
             Barrio{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Barrio"
               id="filled-hidden-label-small"
               value={dataInfo?.barrio ? dataInfo?.barrio : ""}
@@ -140,7 +140,7 @@ const InfoRequest = ({ dataInfo }) => {
           <Typography variant="subtitle2">Telefono </Typography>
           <TextField
             hiddenLabel
-            disabled
+            readonly
             placeholder="Telefono"
             id="filled-hidden-label-small"
             value={dataInfo?.telefonoFijo ? dataInfo?.telefonoFijo : ""}
@@ -153,7 +153,7 @@ const InfoRequest = ({ dataInfo }) => {
             Celular{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Celular"
               id="filled-hidden-label-small"
               value={dataInfo?.telefonoMovil ? dataInfo?.telefonoMovil : ""}
@@ -163,18 +163,19 @@ const InfoRequest = ({ dataInfo }) => {
           </Typography>
         </div>
       </div>
+      <br/>
       <Divider sx={{ marginBottom: "10px", marginTop: "20px" }}>
-        SOLICITUD
+        DATOS SOLICITUD
       </Divider>
       <div className="row">
         <div className="col-6">
           <Typography variant="subtitle2">Tipo Solicitud </Typography>
           <TextField
             hiddenLabel
-            disabled
+            readonly
             placeholder="Tipo Solicitud"
             id="filled-hidden-label-small"
-            value={dataInfo?.tipoPqrsd ? dataInfo?.tipoPqrsd : ""}
+            value={dataInfo?.request_name ? dataInfo?.request_name : ""}
             size="small"
             sx={{ width: "100%" }}
           />
@@ -184,10 +185,10 @@ const InfoRequest = ({ dataInfo }) => {
             Medio Respuesta{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Medio Respuesta"
               id="filled-hidden-label-small"
-              value={dataInfo?.tipoRespuesta ? dataInfo?.tipoRespuesta : ""}
+              value={dataInfo?.typeAnswer_name ? dataInfo?.typeAnswer_name : ""}
               size="small"
               sx={{ width: "100%" }}
             />
@@ -200,7 +201,7 @@ const InfoRequest = ({ dataInfo }) => {
             Descripcion{" "}
             <TextField
               hiddenLabel
-              disabled
+              readonly
               placeholder="Descripcion"
               id="filled-hidden-label-small"
               value={dataInfo?.descripcion ? dataInfo?.descripcion : ""}
@@ -211,6 +212,12 @@ const InfoRequest = ({ dataInfo }) => {
           </Typography>
         </div>
       </div>
+      <br/>
+      <Divider sx={{ marginBottom: "10px", marginTop: "20px" }}>
+        DOCUMENTOS ADJUNTOS
+      </Divider>
+      
+
     </>
   );
 };
