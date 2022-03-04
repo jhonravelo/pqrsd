@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import * as ReactDom from 'react-dom';
+import { enableRipple } from '@syncfusion/ej2-base';
+import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
 import {
   GridComponent,
   ColumnsDirective,
   ColumnDirective,
   Page,
   Toolbar,
-  Inject,
+  Inject
 } from "@syncfusion/ej2-react-grids";
-import Button from "@mui/material/Button";
+import { Button, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -18,6 +21,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import PasswordIcon from "@mui/icons-material/Password";
 import axios from "axios";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
+import Card from "@mui/material/Card";
+enableRipple(true);
 
 const style = {
   position: "absolute",
@@ -31,8 +38,19 @@ const style = {
   p: 4,
 };
 
+const elementAlight = {
+  display: "flex",
+  justifyContent: "space-between",
+  padding: 10
+}
+
 const UsersAdmin = () => {
-  const toolbarOptions = ["Search"];
+  const toolbarOptions = ["Search", "Print"];
+  const searchOptions = {
+    ignoreCase: true,
+    operator: 'contains',
+    label: "Buscar"
+  };
   const [users, setUsers] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -78,42 +96,56 @@ const UsersAdmin = () => {
 
   return (
     <>
-      <div className="control-pane">
-        <Button variant="contained" onClick={handleOpen}>
-          Nuevo Usuario
-        </Button>
-        <div className="control-section row">
-          <Divider>
-            <h3>Listado de Usuarios</h3>
-          </Divider>
-          <GridComponent
-            dataSource={users}
-            toolbar={toolbarOptions}
-            allowPaging={true}
-            pageSettings={{ pageSize: 10, pageCount: 5 }}
-          >
-            <ColumnsDirective>
-              <ColumnDirective
-                field="usuario"
-                headerText="Usuario"
-                width="170"
-              ></ColumnDirective>
-              <ColumnDirective
-                field="esAdmin"
-                headerText="esAdmin"
-                width="150"
-              ></ColumnDirective>
-              <ColumnDirective
-                field="estado"
-                headerText="estado"
-                width="180"
-                textAlign="Right"
-              />
-            </ColumnsDirective>
-            <Inject services={[Toolbar, Page]} />
-          </GridComponent>
-        </div>
+      <div role="presentation">
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" color="inherit" disabled>
+            Admin
+          </Link>
+          <Link underline="hover" color="inherit" disabled>
+            Home
+          </Link>
+          <Typography color="text.primary">Listado</Typography>
+        </Breadcrumbs>
       </div>
+      <Box sx={{ minWidth: 275, width: "100%" }}>
+        <Card variant="outlined" sx={{ padding: "10px", width: "100%" }}>
+          <div style={elementAlight}>
+            <Typography variant="h6" gutterBottom component="div">
+              Listado usuarios
+            </Typography>
+            <ButtonComponent cssClass='e-custom' onClick={handleOpen}>Nuevo usuario</ButtonComponent>
+          </div>
+          <div className="control-section row">
+            <GridComponent
+              dataSource={users}
+              toolbar={toolbarOptions}
+              searchSettings={searchOptions}
+              allowPaging={true}
+              pageSettings={{ pageSize: 10, pageCount: 5 }}
+            >
+              <ColumnsDirective>
+                <ColumnDirective
+                  field="usuario"
+                  headerText="Usuario"
+                  width="170"
+                ></ColumnDirective>
+                <ColumnDirective
+                  field="esAdmin"
+                  headerText="esAdmin"
+                  width="150"
+                ></ColumnDirective>
+                <ColumnDirective
+                  field="estado"
+                  headerText="estado"
+                  width="180"
+                  textAlign="Right"
+                />
+              </ColumnsDirective>
+              <Inject services={[Toolbar, Page]} />
+            </GridComponent>
+          </div>
+        </Card>
+      </Box>
       <div>
         <Modal
           aria-labelledby="transition-modal-title"
